@@ -1,8 +1,8 @@
 use futures::StreamExt;
 use serde::{Deserialize, Serialize};
+use std::io::BufRead;
 use std::io::Write;
 use std::sync::LazyLock;
-use std::{collections::HashMap, io::BufRead};
 use tysm::chat_completions::ChatClient;
 use tysm::embeddings::EmbeddingsClient;
 
@@ -104,7 +104,7 @@ async fn main() -> anyhow::Result<()> {
     let classified_tweets = futures::stream::iter(tweets)
     .map(async |tweet| {
         let political: Political = CLIENT_4O.chat_with_system_prompt(
-            "A tweet will be provided. Respond with a JSON object with a single field `political` that is a boolean. The boolean should be 'true' if the tweet could be described as political, and 'false' otherwise.",
+            "A tweet will be provided. Respond with a JSON object with a single field `political` that is a boolean. The boolean should be 'true' if the tweet could be described as political, and 'false' otherwise. Tweets that simply discuss one's identity are not political.",
             &tweet.text_representation,
         )
         .await?;
@@ -119,7 +119,9 @@ async fn main() -> anyhow::Result<()> {
     .collect::<Vec<_>>().await;
 
     let embeddings = CLIENT_EMBEDDING
-        .embed_fn(&classified_tweets, |political| &political.0.text_representation)
+        .embed_fn(&classified_tweets, |political| {
+            &political.0.text_representation
+        })
         .await?;
 
     // write to jsonl file

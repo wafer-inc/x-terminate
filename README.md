@@ -1,8 +1,16 @@
 # X-Terminate
 
+![Demo of how the algorithm](/demo.mp4)
+
+(Political tweets are highlighted in red for the demo, but in practice the extension hides political tweets before you see them.)
+
+## Installation
+
+Download a release from the [releases page](https://github.com/wafer-inc/x-terminate/releases), unzip it, then follow the instructions [here](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world#load-unpacked) to load the extension in chrome.
+
 ## Installation from Source
 
-Installation from source requires `pnpm` and `nvm`.
+I recommend installing from source, since this allows you to customize the extension to your liking. Installation from source requires `pnpm` and `nvm`.
 
 ```
 git clone https://github.com/wafer-inc/x-terminate.git
@@ -11,7 +19,7 @@ nvm use
 pnpm dev
 ```
 
-This will create a folder called `dist`. Follow the instruction [here](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world#load-unpacked) to load the extension in chrome. While `pnpm dev` is running, any changes to the chrome extension source will be immediately reflected in the `dist` folder and should automatically update in the browser. However, you can kill the `pnpm dev` process and the chrome extension will continue to function.
+This will create a folder called `dist`. Follow the instructions [here](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world#load-unpacked) to load the extension in chrome. While `pnpm dev` is running, any changes to the chrome extension source will be immediately reflected in the `dist` folder and should automatically update in the browser. However, you can kill the `pnpm dev` process and the chrome extension will continue to function.
 
 ## Training the model
 
